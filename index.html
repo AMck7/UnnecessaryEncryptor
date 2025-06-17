@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unnecessary Encryptor - Maximum Overkill Security</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>    <div class="container">
+        <h1>🔐 Unnecessary Encryptor</h1>
+        <p class="subtitle">The most annoying way to encrypt your messages :D</p>        <div class="input-section">
+            <label for="input-text">Enter your message to encrypt:</label>
+            <textarea id="input-text" placeholder="Type your secret message here..."></textarea>
+        </div>        <div class="encryption-methods">
+            <div class="methods-header">
+                <span class="methods-label">Select encryption methods to use:</span>
+                <div class="methods-buttons">
+                    <button type="button" class="select-all-btn" onclick="selectAllMethods()">Select All</button>
+                    <button type="button" class="clear-all-btn" onclick="clearAllMethods()">Clear All</button>
+                </div>
+            </div>            
+            <div class="methods-section">
+                <div class="checkbox-grid">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="rot13-check" checked>
+                        <span>ROT13</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="atbash-check" checked>
+                        <span>Atbash Cipher</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="substitution-check" checked>
+                        <span>Substitution</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="reverse-check" checked>
+                        <span>Reverse Text</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="url-check" checked>
+                        <span>URL Encoding</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="base64-check" checked>
+                        <span>Base64</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="hex-check" checked>
+                        <span>Hex Encoding</span>
+                    </label>
+                </div>
+            </div>
+              
+            <div style="margin-top: 15px;">
+                <a href="#" id="toggle-extra-methods" style="color: #666666; font-size: 0.85em; text-decoration: none; opacity: 0.6; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='0.6'" onclick="toggleExtraMethods(event)">Show extra annoying methods</a>
+            </div>
+              <div class="methods-section" id="extra-methods-section" style="margin-top: 15px; display: none;">
+                <p style="color: #94a3b8; font-size: 0.85em; margin-bottom: 8px; font-style: italic;">These methods will make your message VERY long and change the formatting.</p>
+                <div class="checkbox-grid">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="morse-check">
+                        <span>Morse Code</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="binary-check">
+                        <span>Binary</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="encrypt-btn" onclick="encrypt()">🔒 Encrypt</button>
+            <button class="decrypt-btn" onclick="decrypt()">🔓 Decrypt</button>
+            <button class="clear-btn" onclick="clearAll()">🗑️ Clear boxes</button>
+        </div>        <div class="output-section">
+            <label for="output-text">Encrypted/Decrypted Result:</label>
+            <textarea id="output-text" readonly placeholder="Your encrypted or decrypted text will appear here..."></textarea>            <div class="output-buttons">
+                <button class="copy-btn" onclick="copyToClipboard()">📋 Copy</button>
+                <button class="toggle-steps-btn" onclick="toggleSteps()">🔍 Show Steps</button>
+            </div>
+        </div>        <div id="steps-content" class="steps-content-collapsed"></div>
+        
+        <p class="disclaimer">if this doesn't work it's either mine or your fault and take ZERO blame :p</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

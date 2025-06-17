@@ -22,5 +22,3 @@ The application applies encryption methods in the order they are listed. When de
 This prolly won't work i was really bored and made it because a friend sent me a stupid message under many different encryptions.
 
 This tool is for entertainment purposes only. Do not use it for securing actually sensitive information!!!!!! Obviously 😛
-
----

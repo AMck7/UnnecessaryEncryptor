@@ -1,4 +1,3 @@
-// Toggle extra methods functionality
 function toggleExtraMethods(event) {
     event.preventDefault();
     const extraSection = document.getElementById('extra-methods-section');
@@ -13,20 +12,16 @@ function toggleExtraMethods(event) {
     }
 }
 
-// Encryption algorithms
 const EncryptionMethods = {
-    // ROT13
     rot13: {
         encrypt: (text) => {
             return text.replace(/[a-zA-Z]/g, char => {
                 const start = char <= 'Z' ? 65 : 97;
                 return String.fromCharCode(((char.charCodeAt(0) - start + 13) % 26) + start);
-            });
-        },
-        decrypt: (text) => EncryptionMethods.rot13.encrypt(text) // ROT13 is self-inverse
+            });        },
+        decrypt: (text) => EncryptionMethods.rot13.encrypt(text)
     },
 
-    // Atbash cipher (A=Z, B=Y, etc.)
     atbash: {
         encrypt: (text) => {
             return text.split('').map(char => {
@@ -35,12 +30,10 @@ const EncryptionMethods = {
                     return String.fromCharCode((25 - (char.charCodeAt(0) - start)) + start);
                 }
                 return char;
-            }).join('');
-        },
-        decrypt: (text) => EncryptionMethods.atbash.encrypt(text) // Atbash is self-inverse
+            }).join('');        },
+        decrypt: (text) => EncryptionMethods.atbash.encrypt(text)
     },
 
-    // Custom substitution cipher
     substitution: {
         encrypt: (text) => {
             const normal = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -57,16 +50,12 @@ const EncryptionMethods = {
                 const index = cipher.indexOf(char);
                 return index !== -1 ? normal[index] : char;
             }).join('');
-        }
+        }    },
+
+    reverse: {        encrypt: (text) => text.split('').reverse().join(''),
+        decrypt: (text) => text.split('').reverse().join('')
     },
 
-    // Simple text reversal
-    reverse: {
-        encrypt: (text) => text.split('').reverse().join(''),
-        decrypt: (text) => text.split('').reverse().join('') // Reverse is self-inverse
-    },
-
-    // Morse code (preserves some case info)
     morse: {
         encrypt: (text) => {
             const morseMap = {
@@ -78,12 +67,10 @@ const EncryptionMethods = {
                 '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
                 '8': '---..', '9': '----.', ' ': '/'
             };
-            
-            return text.split('').map(char => {
+              return text.split('').map(char => {
                 const upper = char.toUpperCase();
                 const morse = morseMap[upper];
                 if (morse) {
-                    // Add prefix to indicate original case
                     return char === upper ? morse : '^' + morse;
                 }
                 return char;
@@ -99,37 +86,29 @@ const EncryptionMethods = {
                 '...--': '3', '....-': '4', '.....': '5', '-....': '6', '--...': '7',
                 '---..': '8', '----.': '9', '/': ' '
             };
-            
-            return text.split(' ').map(code => {
+              return text.split(' ').map(code => {
                 if (code.startsWith('^')) {
-                    // Was lowercase
                     const morse = code.substring(1);
                     const char = morseMap[morse];
                     return char ? char.toLowerCase() : code;
                 } else {
-                    // Was uppercase or other
                     return morseMap[code] || code;
                 }
             }).join('');
-        }
-    },
+        }    },
 
-    // Binary encoding
     binary: {
         encrypt: (text) => {
             return text.split('').map(char => 
                 char.charCodeAt(0).toString(2).padStart(8, '0')
-            ).join(' ');
-        },
+            ).join(' ');        },
         decrypt: (text) => {
-            // Check if text looks like binary (contains only 0, 1, and spaces)
             if (!/^[01\s]+$/.test(text.trim())) {
                 throw new Error("Invalid binary format");
             }
             
             const binaryParts = text.split(' ').filter(bin => bin.length > 0);
             
-            // Check if all parts are valid 8-bit binary
             for (let bin of binaryParts) {
                 if (bin.length !== 8 || !/^[01]+$/.test(bin)) {
                     throw new Error("Invalid binary format");
@@ -139,10 +118,8 @@ const EncryptionMethods = {
             return binaryParts.map(bin => 
                 String.fromCharCode(parseInt(bin, 2))
             ).join('');
-        }
-    },
+        }    },
 
-    // Base64 encoding
     base64: {
         encrypt: (text) => btoa(unescape(encodeURIComponent(text))),
         decrypt: (text) => {
@@ -154,7 +131,6 @@ const EncryptionMethods = {
         }
     },
 
-    // Hexadecimal encoding
     hex: {
         encrypt: (text) => {
             return text.split('').map(char => 
@@ -162,7 +138,6 @@ const EncryptionMethods = {
             ).join('');
         },
         decrypt: (text) => {
-            // Check if text is valid hex (even length, only hex characters)
             if (text.length % 2 !== 0 || !/^[0-9a-fA-F]*$/.test(text)) {
                 throw new Error("Invalid hex format");
             }
@@ -172,14 +147,12 @@ const EncryptionMethods = {
         }
     },
 
-    // URL encoding
     url: {
         encrypt: (text) => encodeURIComponent(text),
         decrypt: (text) => decodeURIComponent(text)
     }
 };
 
-// Get selected encryption methods
 function getSelectedMethods() {
     const methods = [];
     const methodIds = ['rot13', 'atbash', 'substitution', 'reverse', 'morse', 'binary', 'url', 'base64', 'hex'];
@@ -228,7 +201,6 @@ function encrypt() {
         document.getElementById('output-text').value = result;
         displaySteps(steps, 'Encryption');
         
-        // Show the copy button when there's output
         document.querySelector('.copy-btn').classList.add('show');
         
     } catch (error) {
@@ -255,7 +227,6 @@ function decrypt() {
     outputTextarea.classList.add('processing');
 
     try {
-        // Try reverse order first (most common case)
         const reverseOrder = [...selectedMethods].reverse();
         let result = attemptDecryptionWithOrder(inputText, reverseOrder);
 
@@ -264,19 +235,16 @@ function decrypt() {
             displaySteps(result.steps, 'Decryption');
             document.querySelector('.copy-btn').classList.add('show');
             
-            // Only show warning if final result is empty AND no methods were actually applied
             if ((!result.text || result.text.trim() === '') && result.text === inputText) {
                 alert('Decryption failed: The result is empty. This usually means the wrong encryption methods were selected or the input was not properly encrypted with these methods.');
             }
         } else {
-            // If reverse order fails, try original order
             result = attemptDecryptionWithOrder(inputText, selectedMethods);
             if (result.success) {
                 document.getElementById('output-text').value = result.text;
                 displaySteps(result.steps, 'Decryption');
                 document.querySelector('.copy-btn').classList.add('show');
                 
-                // Only show warning if final result is empty AND no methods were actually applied
                 if ((!result.text || result.text.trim() === '') && result.text === inputText) {
                     alert('Decryption failed: The result is empty. This usually means the wrong encryption methods were selected or the input was not properly encrypted with these methods.');
                 }
@@ -292,7 +260,6 @@ function decrypt() {
     }
 }
 
-// Try decryption with a specific order - just apply all methods
 function attemptDecryptionWithOrder(text, methodOrder) {
     try {
         let result = text;
@@ -305,9 +272,8 @@ function attemptDecryptionWithOrder(text, methodOrder) {
             try {
                 result = EncryptionMethods[method].decrypt(result);
                 
-                // If result is empty or only whitespace, skip this method and continue with original input
                 if (!result || result.trim() === '') {
-                    result = before; // Keep the input unchanged
+                    result = before;
                     steps.push({
                         step: i + 1,
                         method: method.toUpperCase() + ' (SKIPPED)',
@@ -323,8 +289,7 @@ function attemptDecryptionWithOrder(text, methodOrder) {
                     });
                 }
             } catch (e) {
-                // If decryption fails (e.g., invalid format), skip this method and continue with original input
-                result = before; // Keep the input unchanged
+                result = before;
                 steps.push({
                     step: i + 1,
                     method: method.toUpperCase() + ' (SKIPPED)',
@@ -334,7 +299,6 @@ function attemptDecryptionWithOrder(text, methodOrder) {
             }
         }
         
-        // If we got through all methods without error, it worked
         return {
             success: true,
             text: result,
@@ -351,7 +315,6 @@ function displaySteps(steps, type) {
     
     stepsContent.innerHTML = '';
 
-    // Reset to collapsed state and show the button
     stepsContent.className = 'steps-content-collapsed';
     toggleBtn.textContent = `🔍 Show Steps`;
     toggleBtn.classList.add('show');
@@ -431,21 +394,6 @@ function copyToClipboard() {
     }, 2000);
 }
 
-// Easter egg: Konami code
-let konamiCode = [];
-const konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
-
-document.addEventListener('keydown', (e) => {
-    konamiCode.push(e.keyCode);
-    konamiCode = konamiCode.slice(-10);
-    
-    if (konamiCode.join('') === konami.join('')) {
-        document.body.style.animation = 'glow 0.5s ease-in-out 5';
-        alert('🎉 MEGA ENCRYPTION MASTER MODE ACTIVATED! 🎉\n(Nothing actually changed, but you found the easter egg!)');
-    }
-});
-
-// Auto-resize textareas
 document.querySelectorAll('textarea').forEach(textarea => {
     textarea.addEventListener('input', function() {
         this.style.height = 'auto';

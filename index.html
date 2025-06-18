@@ -6,64 +6,72 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>    <div class="container">
+<body>
+    <div class="container">
         <h1>🔐 Unnecessary Encryptor</h1>
-        <p class="subtitle">The most annoying way to encrypt your messages :D</p>        <div class="input-section">
+        <p class="subtitle">The most annoying way to encrypt your messages :D</p>
+
+        <div id="notification-area" class="notification-area"></div>
+
+        <div class="input-section">
             <label for="input-text">Enter your message to encrypt:</label>
             <textarea id="input-text" placeholder="Type your secret message here..."></textarea>
-        </div>        <div class="encryption-methods">
+        </div>
+
+        <div class="encryption-methods">
             <div class="methods-header">
                 <span class="methods-label">Select encryption methods to use:</span>
                 <div class="methods-buttons">
-                    <button type="button" class="select-all-btn" onclick="selectAllMethods()">Select All</button>
-                    <button type="button" class="clear-all-btn" onclick="clearAllMethods()">Clear All</button>
+                    <button type="button" class="select-all-btn">Select All</button>
+                    <button type="button" class="clear-all-btn">Clear All</button>
                 </div>
-            </div>            
+            </div>
             <div class="methods-section">
                 <div class="checkbox-grid">
                     <label class="checkbox-item">
-                        <input type="checkbox" id="rot13-check" checked>
+                        <input type="checkbox" class="method-checkbox" data-method="rot13" checked>
                         <span>ROT13</span>
                     </label>
                     <label class="checkbox-item">
-                        <input type="checkbox" id="atbash-check" checked>
+                        <input type="checkbox" class="method-checkbox" data-method="atbash" checked>
                         <span>Atbash Cipher</span>
                     </label>
                     <label class="checkbox-item">
-                        <input type="checkbox" id="substitution-check" checked>
+                        <input type="checkbox" class="method-checkbox" data-method="substitution" checked>
                         <span>Substitution</span>
                     </label>
                     <label class="checkbox-item">
-                        <input type="checkbox" id="reverse-check" checked>
+                        <input type="checkbox" class="method-checkbox" data-method="reverse" checked>
                         <span>Reverse Text</span>
                     </label>
                     <label class="checkbox-item">
-                        <input type="checkbox" id="url-check" checked>
+                        <input type="checkbox" class="method-checkbox" data-method="url" checked>
                         <span>URL Encoding</span>
                     </label>
                     <label class="checkbox-item">
-                        <input type="checkbox" id="base64-check" checked>
+                        <input type="checkbox" class="method-checkbox" data-method="base64" checked>
                         <span>Base64</span>
                     </label>
                     <label class="checkbox-item">
-                        <input type="checkbox" id="hex-check" checked>
+                        <input type="checkbox" class="method-checkbox" data-method="hex" checked>
                         <span>Hex Encoding</span>
                     </label>
                 </div>
             </div>
-              
-            <div style="margin-top: 15px;">
-                <a href="#" id="toggle-extra-methods" style="color: #666666; font-size: 0.85em; text-decoration: none; opacity: 0.6; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='0.6'" onclick="toggleExtraMethods(event)">Show extra annoying methods</a>
+
+            <div class="extra-methods-toggle">
+                <button type="button" id="toggle-extra-methods" class="toggle-extra-methods-btn">Show extra annoying methods</button>
             </div>
-              <div class="methods-section" id="extra-methods-section" style="margin-top: 15px; display: none;">
-                <p style="color: #94a3b8; font-size: 0.85em; margin-bottom: 8px; font-style: italic;">These methods will make your message VERY long and change the formatting.</p>
+
+            <div class="methods-section extra-methods-section" id="extra-methods-section">
+                <p class="extra-methods-description">These methods will make your message VERY long and change the formatting.</p>
                 <div class="checkbox-grid">
                     <label class="checkbox-item">
-                        <input type="checkbox" id="morse-check">
+                        <input type="checkbox" class="method-checkbox" data-method="morse">
                         <span>Morse Code</span>
                     </label>
                     <label class="checkbox-item">
-                        <input type="checkbox" id="binary-check">
+                        <input type="checkbox" class="method-checkbox" data-method="binary">
                         <span>Binary</span>
                     </label>
                 </div>
@@ -71,17 +79,22 @@
         </div>
 
         <div class="button-group">
-            <button class="encrypt-btn" onclick="encrypt()">🔒 Encrypt</button>
-            <button class="decrypt-btn" onclick="decrypt()">🔓 Decrypt</button>
-            <button class="clear-btn" onclick="clearAll()">🗑️ Clear boxes</button>
-        </div>        <div class="output-section">
+            <button class="encrypt-btn">🔒 Encrypt</button>
+            <button class="decrypt-btn">🔓 Decrypt</button>
+            <button class="clear-btn">🗑️ Clear boxes</button>
+        </div>
+
+        <div class="output-section">
             <label for="output-text">Encrypted/Decrypted Result:</label>
-            <textarea id="output-text" readonly placeholder="Your encrypted or decrypted text will appear here..."></textarea>            <div class="output-buttons">
-                <button class="copy-btn" onclick="copyToClipboard()">📋 Copy</button>
-                <button class="toggle-steps-btn" onclick="toggleSteps()">🔍 Show Steps</button>
+            <textarea id="output-text" readonly placeholder="Your encrypted or decrypted text will appear here..."></textarea>
+            <div class="output-buttons">
+                <button class="copy-btn">📋 Copy</button>
+                <button class="toggle-steps-btn">🔍 Show Steps</button>
             </div>
-        </div>        <div id="steps-content" class="steps-content-collapsed"></div>
-        
+        </div>
+
+        <div id="steps-content" class="steps-content-collapsed"></div>
+
         <p class="disclaimer">if this doesn't work it's either mine or your fault and I take ZERO blame :p</p>
     </div>
 
